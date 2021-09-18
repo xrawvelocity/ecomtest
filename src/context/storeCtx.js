@@ -10,11 +10,16 @@ export const useStore = () => {
 const StoreProvider = ({ children }) => {
   const [cart, setCart] = useState({})
   const [products, setProducts] = useState([])
+  const [order, setOrder] = useState({})
+  const [errorMessage, setErrorMessage] = useState('')
 
-  useEffect(async () => {
-    const { data } = await commerce.products.list()
-    setProducts(data)
-    setCart(await commerce.cart.retrieve())
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await commerce.products.list()
+      setProducts(data)
+      setCart(await commerce.cart.retrieve())
+    }
+    getData()
   }, [])
 
   const addToCart = async (productId, quantity) => {
@@ -37,6 +42,24 @@ const StoreProvider = ({ children }) => {
     setCart(cart)
   }
 
+  const refreshCart = async () => {
+    const newCart = await commerce.cart.refresh()
+    setCart(newCart)
+  }
+
+  const handleCaptureCheckout = async (checkoutTokenId, newOrder) => {
+    try {
+      const incomingOrder = await commerce.checkout.capture(
+        checkoutTokenId,
+        newOrder
+      )
+      setOrder(incomingOrder)
+      refreshCart()
+    } catch (err) {
+      setErrorMessage(err.data.error.message)
+    }
+  }
+
   return (
     <StoreContext.Provider
       value={{
@@ -48,6 +71,10 @@ const StoreProvider = ({ children }) => {
         updateQty,
         removeFromCart,
         emptyCart,
+        handleCaptureCheckout,
+        order,
+        setErrorMessage,
+        errorMessage,
       }}
     >
       {children}

@@ -1,5 +1,5 @@
-import { Grid } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import { Grid } from '@mui/material'
+import React, { useState } from 'react'
 import { Search } from '../../components/inputs/Search'
 import { Product } from '../../components/Product'
 import Flex from '../../components/structure/Flex'
@@ -8,6 +8,7 @@ import { useStore } from '../../context/storeCtx'
 export default function Store() {
   const [searchInput, setSearchInput] = useState('')
   const { products } = useStore()
+  console.log(products)
 
   const showProducts = () => {
     return products
@@ -30,7 +31,7 @@ export default function Store() {
         onChange={(e) => setSearchInput(e.target.value)}
         style={{ marginBottom: '2rem' }}
       />
-      <Grid container spacing={3} justify="center">
+      <Grid container spacing={3} justifyContent="center">
         {showProducts()}
       </Grid>
     </Flex>

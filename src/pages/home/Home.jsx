@@ -1,5 +1,6 @@
 import React from 'react'
+import { Typography } from '@mui/material'
 
 export default function Home() {
-  return <div>home</div>
+  return <Typography>home</Typography>
 }

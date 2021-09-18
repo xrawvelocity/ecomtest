@@ -5,7 +5,7 @@ import {
   CardContent,
   CardMedia,
   Typography,
-} from '@material-ui/core'
+} from '@mui/material'
 import React from 'react'
 import { useStore } from '../context/storeCtx'
 import Flex from './structure/Flex'

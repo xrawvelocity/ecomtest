@@ -1,3 +1,4 @@
+import { Box } from '@mui/system'
 import React from 'react'
 
 export default function Flex({
@@ -5,13 +6,13 @@ export default function Flex({
   direction = 'row',
   justify = 'flex-start',
   align = 'flex-start',
-  spacing = '0',
+  spacing = 0,
   wrap,
   style,
   ...rest
 }) {
   return (
-    <div
+    <Box
       {...rest}
       style={{
         display: 'flex',
@@ -22,11 +23,11 @@ export default function Flex({
         ...style,
 
         '& > *': {
-          margin: spacing * 8,
+          margin: `${spacing * 8} !important`,
         },
       }}
     >
       {children}
-    </div>
+    </Box>
   )
 }
