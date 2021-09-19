@@ -6,6 +6,7 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import { NavBar } from './components/navigation/NavBar'
 import { Cart } from './pages/cart/Cart'
 import { Checkout } from './pages/checkout/Checkout'
+import { Contact } from './pages/contact/Contact'
 import Home from './pages/home/Home'
 import Store from './pages/store/Store'
 import globalStyles from './styles/global'
@@ -31,6 +32,9 @@ export default function App() {
             </Route>
             <Route path="/checkout">
               <Checkout />
+            </Route>
+            <Route path="/contact">
+              <Contact />
             </Route>
           </main>
         </Switch>

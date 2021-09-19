@@ -37,13 +37,12 @@ const globalStyles = (coloring) => {
     body: {
       fontFamily: 'Roboto, sans-serif',
       webkitFontSmoothing: 'antialiased',
-      height: 'calc(100vh - 120px)',
+      height: 'calc(100vh - 110px)',
       position: 'absolute',
       left: 0,
-      top: 120,
+      top: '110px',
       width: '100vw',
       padding: '0 !important',
-      // marginTop: '120px !important',
     },
     'a, a:link, a:visited': {
       textDecoration: 'none',

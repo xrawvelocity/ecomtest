@@ -3,6 +3,7 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import FlightIcon from '@mui/icons-material/Flight'
 import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
+import CloseIcon from '@mui/icons-material/Close'
 
 import {
   Badge,
@@ -23,6 +24,7 @@ import Flex from '../structure/Flex'
 import { NavLink } from './NavLink'
 import { Box } from '@mui/system'
 import { Search } from '../inputs/Search'
+import { DropDown } from '../inputs/DropDown'
 
 export const NavBar = () => {
   const { cart, products } = useStore()
@@ -77,7 +79,7 @@ export const NavBar = () => {
               variant="body1"
               sx={{ fontSize: { xs: '2rem', sm: '1.5rem' } }}
             >
-              (305) 685-1061
+              (305) 123-4567
             </Typography>
           </Flex>
           <Flex
@@ -141,7 +143,7 @@ export const NavBar = () => {
           position: 'fixed',
           width: '100%',
           top: '40px',
-          maxHeight: '80px',
+          maxHeight: '70px',
           zIndex: '100',
         }}
       >
@@ -254,7 +256,7 @@ export const NavBar = () => {
           style={{
             width: '100%',
             position: 'fixed',
-            top: '120px',
+            top: '110px',
             zIndex: '99',
           }}
         >
@@ -268,37 +270,37 @@ export const NavBar = () => {
             sx={{
               bgcolor: 'background.black',
               float: { sm: 'right' },
-              width: { xs: '100%', sm: '40%' },
+              width: { xs: '100%', sm: '400px' },
+              marginRight: { sm: '5%' },
             }}
           >
-            <Autocomplete
-              sx={{ width: '100%', position: 'relative' }}
-              openOnFocus
-              freeSolo
+            <DropDown
+              width="100%"
+              placeholder="Search products..."
               options={products}
-              renderOption={(props, option) => (
-                <Box>
-                  {console.log(option)}
-                  {option.name}
-                </Box>
-              )}
-              renderInput={(params) => {
-                console.log(params)
+              filterBy={(each) => each.name}
+              renderOption={(option) => {
                 return (
-                  <Search
-                    placeholder="Search products..."
-                    sx={{
-                      bgcolor: 'background.paper',
-                      width: '100%',
-                      borderRadius: '4px',
-                      border: 'none',
-                    }}
-                    closeIcon={true}
-                    onClose={() => setSearchOpen(false)}
-                    InputProps={params.InputProps}
-                    {...params}
-                  />
+                  <Flex justify="space-between" width="100%">
+                    <Typography variant="h6" style={{ fontWeight: '600' }}>
+                      {option.name}
+                    </Typography>
+                    <Typography variant="h6">
+                      {option.price.formatted_with_symbol}
+                    </Typography>
+                  </Flex>
                 )
+              }}
+              onSelect={(val) => {
+                console.log(val)
+              }}
+            />
+            <CloseIcon
+              onClick={() => setSearchOpen(false)}
+              sx={{
+                color: 'background.paper',
+                ':hover': { color: 'primary.main', cursor: 'pointer' },
+                marginLeft: '20px',
               }}
             />
           </Box>

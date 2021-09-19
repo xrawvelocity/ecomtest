@@ -49,7 +49,7 @@ export const Cart = () => {
           </Typography>
           <Flex>
             <Button
-              variant="contained"
+              variant="outlined"
               color="secondary"
               onClick={() => emptyCart()}
             >
@@ -59,9 +59,9 @@ export const Cart = () => {
               component={Link}
               to="/checkout"
               variant="contained"
-              style={{
-                backgroundColor: '#1b99e8',
-                color: '#fff',
+              sx={{
+                bgcolor: 'primary.main',
+                color: 'background.paper',
                 marginLeft: '2rem',
               }}
             >

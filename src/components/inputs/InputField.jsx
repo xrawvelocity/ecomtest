@@ -3,7 +3,7 @@ import { TextField, Grid, Typography } from '@mui/material'
 import { useFormContext, Controller } from 'react-hook-form'
 import Flex from '../structure/Flex'
 
-export const InputField = ({ name, label, required = true }) => {
+export const InputField = ({ name, label, required = true, ...props }) => {
   const { control } = useFormContext()
 
   return (
@@ -25,6 +25,7 @@ export const InputField = ({ name, label, required = true }) => {
               required={required}
               onChange={onChange}
               value={value}
+              {...props}
             />
           )}
         />

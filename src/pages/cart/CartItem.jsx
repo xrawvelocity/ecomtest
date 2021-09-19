@@ -50,7 +50,7 @@ export const CartItem = ({ product }) => {
           </IconButton>
         </Flex>
         <Button
-          variant="contained"
+          variant="outlined"
           color="secondary"
           onClick={() => removeFromCart(product.id)}
         >
