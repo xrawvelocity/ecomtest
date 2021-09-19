@@ -9,11 +9,11 @@ export default function Flex({
   spacing = 0,
   wrap,
   style,
-  ...rest
+  sx,
+  ...props
 }) {
   return (
     <Box
-      {...rest}
       style={{
         display: 'flex',
         flexDirection: direction,
@@ -26,6 +26,8 @@ export default function Flex({
           margin: `${spacing * 8} !important`,
         },
       }}
+      sx={sx}
+      {...props}
     >
       {children}
     </Box>

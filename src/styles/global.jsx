@@ -5,6 +5,7 @@ const globalStyles = (coloring) => {
       margin: 0,
       boxSizing: 'border-box',
       webkitTapHighlightColor: 'transparent',
+      transition: 'all .1s ease-in-out',
     },
     '*:focus, *:active': {
       outline: 'none !important',
@@ -32,20 +33,17 @@ const globalStyles = (coloring) => {
         fontSize: '50%',
       },
     },
-    '@media only screen and (max-width: 560px)': {
-      html: {
-        fontSize: '40%',
-      },
-    },
+
     body: {
       fontFamily: 'Roboto, sans-serif',
       webkitFontSmoothing: 'antialiased',
-      height: 'calc(100vh - 77px)',
+      height: 'calc(100vh - 120px)',
       position: 'absolute',
       left: 0,
+      top: 120,
       width: '100vw',
       padding: '0 !important',
-      marginTop: '77px !important',
+      // marginTop: '120px !important',
     },
     'a, a:link, a:visited': {
       textDecoration: 'none',

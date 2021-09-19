@@ -1,78 +1,331 @@
-import { ShoppingCart } from '@mui/icons-material'
-import { Badge, IconButton, Typography } from '@mui/material'
-import React, { useCallback } from 'react'
+import { ShoppingCartOutlined } from '@mui/icons-material'
+import PhoneIcon from '@mui/icons-material/Phone'
+import FlightIcon from '@mui/icons-material/Flight'
+import MenuIcon from '@mui/icons-material/Menu'
+import SearchIcon from '@mui/icons-material/Search'
+
+import {
+  Badge,
+  Slide,
+  IconButton,
+  Typography,
+  Autocomplete,
+  Popper,
+  Drawer,
+  List,
+  ListItem,
+} from '@mui/material'
+import React, { useCallback, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import { useStore } from '../../context/storeCtx'
 import Flex from '../structure/Flex'
 import { NavLink } from './NavLink'
+import { Box } from '@mui/system'
+import { Search } from '../inputs/Search'
 
 export const NavBar = () => {
-  const { cart } = useStore()
+  const { cart, products } = useStore()
   const history = useHistory()
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   const handleOnClick = useCallback((text) => history.push(text), [history])
 
   return (
-    <Flex
-      component="nav"
-      sx={{ bgcolor: 'background.black' }}
-      justify="space-between"
-      align="center"
-      style={{
-        position: 'fixed',
-        width: '100%',
-        top: 0,
-        zIndex: '100',
-        padding: '2rem 10%',
-      }}
-    >
-      <Link to="/">
-        <Flex align="center">
-          <Typography sx={{ color: 'text.white' }} variant="h6">
-            Logo
-          </Typography>
-        </Flex>
-      </Link>
-      <Flex align="center" justify="flex-end" style={{ width: '40rem' }}>
-        <Flex
-          align="center"
-          justify="space-between"
-          spacing={3}
-          style={{ width: '50%' }}
+    <Flex direction="column">
+      <Box
+        style={{
+          padding: '20px 5%',
+          position: 'fixed',
+          width: '100%',
+          top: 0,
+          height: '0',
+          zIndex: '101',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+        sx={{
+          bgcolor: 'background.paper',
+          justifyContent: { xs: 'center', sm: 'space-between' },
+        }}
+      >
+        <Box
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+          sx={{
+            width: { xs: '100%', sm: 'auto' },
+            justifyContent: { xs: 'space-between', sm: 'flex-start' },
+          }}
         >
-          <NavLink to="/store" text="Store" />
-          <NavLink to="/about" text="About" />
-          <NavLink to="/contact" text="Contact" />
-        </Flex>
-        <IconButton
-          aria-label="Show cart items"
-          onClick={() => handleOnClick('/cart')}
-          style={{ marginLeft: '5rem' }}
-        >
-          <Badge
+          <Flex
+            align="center"
             sx={{
-              '& span': {
-                minWidth: { xs: '1.75rem', sm: '2rem' },
-                width: { xs: '1.75rem', sm: '2rem' },
-                height: { xs: '1.75rem', sm: '2rem' },
+              color: 'background.black',
+              ':hover': {
+                color: 'primary.main',
               },
             }}
-            badgeContent={cart?.total_items}
-            color="secondary"
+            component={Link}
+            to="/contact"
+            style={{ marginRight: '2rem' }}
           >
-            <ShoppingCart
+            <PhoneIcon style={{ marginRight: '1rem' }} />
+            <Typography
+              variant="body1"
+              sx={{ fontSize: { xs: '2rem', sm: '1.5rem' } }}
+            >
+              (305) 685-1061
+            </Typography>
+          </Flex>
+          <Flex
+            align="center"
+            sx={{
+              color: 'background.black',
+            }}
+          >
+            <FlightIcon style={{ marginRight: '1rem' }} />
+            <Typography
+              variant="body1"
+              sx={{ fontSize: { xs: '2rem', sm: '1.5rem' } }}
+            >
+              Free Shipping in the US
+            </Typography>
+          </Flex>
+        </Box>
+        <Box
+          style={{ alignItems: 'center' }}
+          sx={{
+            color: 'background.black',
+            ':hover': {
+              cursor: 'pointer',
+              color: 'primary.main',
+            },
+            display: {
+              xs: 'none',
+              sm: 'flex',
+            },
+          }}
+          onClick={() => handleOnClick('/cart')}
+        >
+          <IconButton
+            aria-label="Show cart items"
+            onClick={() => handleOnClick('/cart')}
+            style={{ marginLeft: '5rem', color: 'inherit' }}
+          >
+            <ShoppingCartOutlined />
+          </IconButton>
+          <Typography
+            style={{
+              fontSize: '1.5rem',
+              marginRight: '.5rem',
+              fontWeight: '700',
+            }}
+          >
+            Cart
+          </Typography>
+          <Typography style={{ fontSize: '1.75rem', fontWeight: '700' }}>
+            {cart?.total_items}
+          </Typography>
+        </Box>
+      </Box>
+      <Flex
+        component="nav"
+        sx={{ bgcolor: 'background.black' }}
+        justify="space-between"
+        align="center"
+        style={{
+          padding: '20px 5%',
+          position: 'fixed',
+          width: '100%',
+          top: '40px',
+          maxHeight: '80px',
+          zIndex: '100',
+        }}
+      >
+        <Box
+          style={{ alignItems: 'center' }}
+          sx={{
+            display: { xs: 'flex', sm: 'none' },
+          }}
+        >
+          <MenuIcon
+            onClick={() => setDrawerOpen(true)}
+            fontSize="large"
+            style={{ marginRight: '3rem' }}
+            sx={{
+              color: 'background.paper',
+              ':hover': {
+                cursor: 'pointer',
+                color: 'primary.main',
+              },
+            }}
+          />
+          <SearchIcon
+            onClick={() => setSearchOpen(true)}
+            fontSize="large"
+            sx={{
+              color: 'background.paper',
+              ':hover': {
+                cursor: 'pointer',
+                color: 'primary.main',
+              },
+            }}
+          />
+        </Box>
+        <Link to="/">
+          <Typography
+            sx={{
+              color: 'text.white',
+              fontSize: { xs: '3rem', sm: '2rem' },
+              marginLeft: { xs: '-3rem', sm: '0' },
+            }}
+          >
+            LOGO
+          </Typography>
+        </Link>
+        <Flex align="center" justify="flex-end" style={{ width: 'auto' }}>
+          <Flex align="center" justify="space-between">
+            <NavLink
+              to="/store"
+              text="Store"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+              style={{ marginRight: '2rem' }}
+            />
+            <NavLink
+              to="/about"
+              text="About"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+              style={{ marginRight: '2rem' }}
+            />
+            <NavLink
+              to="/contact"
+              text="Contact"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            />
+            <SearchIcon
+              onClick={() => setSearchOpen(true)}
+              fontSize="large"
               sx={{
+                marginLeft: '4rem',
+                display: { xs: 'none', sm: 'block' },
                 color: 'background.paper',
                 ':hover': {
+                  cursor: 'pointer',
                   color: 'primary.main',
                 },
               }}
-              style={{ marginRight: '.5rem' }}
             />
-          </Badge>
-        </IconButton>
+          </Flex>
+          <Box
+            style={{ alignItems: 'center' }}
+            sx={{
+              color: 'background.paper',
+              ':hover': {
+                color: 'primary.main',
+              },
+              display: {
+                xs: 'flex',
+                sm: 'none',
+              },
+            }}
+            onClick={() => handleOnClick('/cart')}
+          >
+            <IconButton
+              aria-label="Show cart items"
+              onClick={() => handleOnClick('/cart')}
+              style={{ color: 'inherit' }}
+            >
+              <ShoppingCartOutlined
+                fontSize="large"
+                style={{ marginRight: '.5rem' }}
+              />
+            </IconButton>
+            <Typography style={{ fontSize: '2rem', fontWeight: '700' }}>
+              {cart?.total_items}
+            </Typography>
+          </Box>
+        </Flex>
       </Flex>
+      <Slide in={searchOpen} direction="down">
+        <Box
+          style={{
+            width: '100%',
+            position: 'fixed',
+            top: '120px',
+            zIndex: '99',
+          }}
+        >
+          <Box
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '2rem',
+              height: '77px',
+            }}
+            sx={{
+              bgcolor: 'background.black',
+              float: { sm: 'right' },
+              width: { xs: '100%', sm: '40%' },
+            }}
+          >
+            <Autocomplete
+              sx={{ width: '100%', position: 'relative' }}
+              openOnFocus
+              freeSolo
+              options={products}
+              renderOption={(props, option) => (
+                <Box>
+                  {console.log(option)}
+                  {option.name}
+                </Box>
+              )}
+              renderInput={(params) => {
+                console.log(params)
+                return (
+                  <Search
+                    placeholder="Search products..."
+                    sx={{
+                      bgcolor: 'background.paper',
+                      width: '100%',
+                      borderRadius: '4px',
+                      border: 'none',
+                    }}
+                    closeIcon={true}
+                    onClose={() => setSearchOpen(false)}
+                    InputProps={params.InputProps}
+                    {...params}
+                  />
+                )
+              }}
+            />
+          </Box>
+        </Box>
+      </Slide>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        PaperProps={{
+          style: { width: '40%' },
+        }}
+      >
+        <Box>
+          <List>
+            <ListItem>
+              <Typography>Store</Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>About</Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>Contact</Typography>
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
     </Flex>
   )
 }

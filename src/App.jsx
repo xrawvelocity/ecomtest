@@ -19,7 +19,7 @@ export default function App() {
       <Router>
         <NavBar />
         <Switch>
-          <main style={{ padding: '0 10%' }}>
+          <main style={{ padding: '0 5%' }}>
             <Route exact path={['', '/']}>
               <Home />
             </Route>
